@@ -15,10 +15,11 @@ window.title("Performance Search")
 def Search_date():
     global key
 
-    time1 = str(e1.get())
-    time2 = str(e2.get())
+    time1 = '2017'+ Month1.get(ACTIVE) + Day1.get(ACTIVE)
+    time2 = '2017'+ Month2.get(ACTIVE) + Day2.get(ACTIVE)
+
     url = 'http://www.culture.go.kr/openapi/rest/publicperformancedisplays/period?'
-    new_url = url + 'from=' + time1 + '&to=' + time2 + '&cPage=1&rows=10&gpsxfrom=&gpsyfrom=&gpsxto=&gpsyto=&keyword=&sortStdr=1' + '&serviceKey=' + key
+    new_url = url + 'from=' + time1 + '&to=' + time2 + '&cPage=1&rows=15&gpsxfrom=&gpsyfrom=&gpsxto=&gpsyto=&keyword=&sortStdr='+sortStdr + '&serviceKey=' + key
 
     data=urllib.request.urlopen(new_url).read()
     d=str(data.decode('utf-8'))
@@ -35,6 +36,7 @@ def Search_date():
         place = perforList.find("place").text
         realmName = perforList.find("realmName").text
         seq = perforList.find("seq").text
+        area = perforList.find("area").text
 
         RenderText.insert(INSERT, "=========================================\n")
         RenderText.insert(INSERT, "제목 : ")
@@ -43,15 +45,15 @@ def Search_date():
         RenderText.insert(INSERT, "장르 : ")
         RenderText.insert(INSERT, realmName)
         RenderText.insert(INSERT, '\n')
-        #RenderText.insert(INSERT, "시작일 : ")
-        #RenderText.insert(INSERT, startDate)
-        #RenderText.insert(INSERT, '\n')
-        #RenderText.insert(INSERT, "마감일 : ")
-        #RenderText.insert(INSERT, endDate)
-        #RenderText.insert(INSERT, '\n')
-        #RenderText.insert(INSERT, "장소 : ")
-        #RenderText.insert(INSERT, place)
-        #RenderText.insert(INSERT, '\n')
+        RenderText.insert(INSERT, "지역 : ")
+        RenderText.insert(INSERT, area)
+        RenderText.insert(INSERT, '\n')
+        RenderText.insert(INSERT, "시작일 : ")
+        RenderText.insert(INSERT, startDate)
+        RenderText.insert(INSERT, '\n')
+        RenderText.insert(INSERT, "마감일 : ")
+        RenderText.insert(INSERT, endDate)
+        RenderText.insert(INSERT, '\n')
         RenderText.insert(INSERT, "일련번호: ")
         RenderText.insert(INSERT, seq)
         RenderText.insert(INSERT, '\n')
@@ -59,17 +61,17 @@ def Search_date():
 
 
 def Search_Area():
+    global key
+
     sido = str(e3.get())
     hangul_sido = urllib.parse.quote(sido)
     gugun = str(e4.get())
     hangul_gugun = urllib.parse.quote(gugun)
-    startdate = '2017'+ Month1.get(ACTIVE)+Day1.get(ACTIVE)
-    enddate = '2017'+ Month2.get(ACTIVE) + Day2.get(ACTIVE)
-
-    global key
+    #startdate = '2017'+ Month1.get(ACTIVE) + Day1.get(ACTIVE)
+    #enddate = '2017'+ Month2.get(ACTIVE) + Day2.get(ACTIVE)
 
     url = 'http://www.culture.go.kr/openapi/rest/publicperformancedisplays/area?'
-    new_url = url + 'sido=' + hangul_sido + '&gugun=' + hangul_gugun + '&from='+startdate+'&to='+enddate+'&cPage=1&rows=10&gpsxfrom=&gpsyfrom=&gpsxto=&gpsyto=&keyword=&sortStdr=1' + '&serviceKey=' + key
+    new_url = url + 'sido=' + hangul_sido + '&gugun=' + hangul_gugun + '&from=20170101&to=20171231&cPage=1&rows=30&gpsxfrom=&gpsyfrom=&gpsxto=&gpsyto=&keyword=&sortStdr='+ sortStdr + '&serviceKey=' + key
 
     data=urllib.request.urlopen(new_url).read()
     d=str(data.decode('utf-8'))
@@ -87,6 +89,7 @@ def Search_Area():
         place = perforList.find("place").text
         realmName = perforList.find("realmName").text
         seq = perforList.find("seq").text
+        area = perforList.find("area").text
 
         RenderText.insert(INSERT, "=========================================\n")
         RenderText.insert(INSERT, "제목 : ")
@@ -95,15 +98,15 @@ def Search_Area():
         RenderText.insert(INSERT, "장르 : ")
         RenderText.insert(INSERT, realmName)
         RenderText.insert(INSERT, '\n')
+        RenderText.insert(INSERT, "지역 : ")
+        RenderText.insert(INSERT, area)
+        RenderText.insert(INSERT, '\n')
         RenderText.insert(INSERT, "시작일 : ")
         RenderText.insert(INSERT, startDate)
         RenderText.insert(INSERT, '\n')
         RenderText.insert(INSERT, "마감일 : ")
         RenderText.insert(INSERT, endDate)
         RenderText.insert(INSERT, '\n')
-        #RenderText.insert(INSERT, "장소 : ")
-        #RenderText.insert(INSERT, place)
-        #RenderText.insert(INSERT, '\n')
         RenderText.insert(INSERT, "일련번호: ")
         RenderText.insert(INSERT, seq)
         RenderText.insert(INSERT, '\n')
@@ -200,9 +203,9 @@ Main = Label(window, fg = 'orange',font = myfont, text = '공연/전시 검색 �
 Main.pack()
 Main.place(x=80, y=10)
 
-#b1 = Button(window, text = 'Search', command=SearchButtonAction)
-#b1.pack()
-#b1.place(x=400, y=55)
+b1 = Button(window, text = 'Search', command=SearchButtonAction)
+b1.pack()
+b1.place(x=400, y=55)
 
 b2 = Button(window, text = 'Search', command=SearchButtonAction2)
 b2.pack()
@@ -210,7 +213,7 @@ b2.place(x=400, y=95)
 
 b3 = Button(window, text = 'Search', command=SearchButtonAction3)
 b3.pack()
-b3.place(x=200, y=135)
+b3.place(x=115, y=135)
 
 l1 = Label(window, text = '언제부터')
 l2 = Label(window, text = '언제까지')
@@ -228,13 +231,31 @@ l5.place(x=0, y=140)
 #e2 = Entry(window)
 e3 = Entry(window)
 e4 = Entry(window)
-e5 = Entry(window)
+e5 = Entry(window,width=8)
 
 #e1.place(x=50, y=60)
 #e2.place(x=250, y=60)
 e3.place(x=50, y=100)
 e4.place(x=250, y=100)
 e5.place(x=50, y=140)
+
+def sel():
+    global sortStdr
+    sortStdr = str(sorted.get())
+
+sorted = IntVar()
+
+sort1 = Radiobutton(window,text='등록일순',variable= sorted,value=1,command=sel)
+sort1.pack()
+sort1.place(x=170,y=135)
+
+sort2 = Radiobutton(window,text='공연명순',variable= sorted,value=2,command=sel)
+sort2.pack()
+sort2.place(x=250,y=135)
+
+sort3 = Radiobutton(window,text='지역명순',variable= sorted,value=3,command=sel)
+sort3.pack()
+sort3.place(x=330,y=135)
 
 def Month_and_Day_Select():
     global Month1, Month2, Day1, Day2
