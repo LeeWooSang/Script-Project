@@ -23,7 +23,7 @@ def Search_date(): #기간별로 검색하는 기능
     time2 = '2017'+ Month2.get(ACTIVE) + Day2.get(ACTIVE)
 
     url = 'http://www.culture.go.kr/openapi/rest/publicperformancedisplays/period?'
-    new_url = url + 'from=' + time1 + '&to=' + time2 + '&cPage=1&rows=15&gpsxfrom=&gpsyfrom=&gpsxto=&gpsyto=&keyword=&sortStdr='+sortStdr + '&serviceKey=' + key
+    new_url = url + 'from=' + time1 + '&to=' + time2 + '&cPage=1&rows=50&gpsxfrom=&gpsyfrom=&gpsxto=&gpsyto=&keyword=&sortStdr='+sortStdr + '&serviceKey=' + key
 
     data=urllib.request.urlopen(new_url).read()
     d=str(data.decode('utf-8'))
@@ -74,7 +74,7 @@ def Search_Area(): #지역별로 검색하는 기능
     #enddate = '2017'+ Month2.get(ACTIVE) + Day2.get(ACTIVE)
 
     url = 'http://www.culture.go.kr/openapi/rest/publicperformancedisplays/area?'
-    new_url = url + 'sido=' + hangul_sido + '&gugun=' + hangul_gugun + '&from=20170101&to=20171231&cPage=1&rows=30&gpsxfrom=&gpsyfrom=&gpsxto=&gpsyto=&keyword=&sortStdr='+ sortStdr + '&serviceKey=' + key
+    new_url = url + 'sido=' + hangul_sido + '&gugun=' + hangul_gugun + '&from=20170101&to=20171231&cPage=1&rows=50&gpsxfrom=&gpsyfrom=&gpsxto=&gpsyto=&keyword=&sortStdr='+ sortStdr + '&serviceKey=' + key
 
     data=urllib.request.urlopen(new_url).read()
     d=str(data.decode('utf-8'))
@@ -185,7 +185,6 @@ def Send_mail():
     host = "smtp.gmail.com"
     port = "587"
     msgtext = SpecificData.get(0.0,END)
-
 
     senderAddr = put_from_email.get()
     recipientAddr = put_to_email.get()
@@ -354,9 +353,7 @@ def Month_and_Day_Select(): #기간설정하는 리스트박스와 스크롤바
     Day2.place(x=325, y=55)
     Day2scroll.config(command=Day2.yview)
 
-
 Month_and_Day_Select()
-
 
 poster = Label(window, image=None, height=300, width=200)
 poster.pack()
